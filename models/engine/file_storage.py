@@ -33,7 +33,6 @@ class FileStorage:
 
     def reload(self):
         """Deserializes the JSON file to __objects"""
-        # INTERNAL IMPORTS to prevent circular dependency
         from models.base_model import BaseModel
         from models.user import User
         from models.state import State
@@ -47,12 +46,17 @@ class FileStorage:
             "City": City, "Amenity": Amenity, "Place": Place,
             "Review": Review
         }
-        if os.path.exists(self.__file_path):
-            try:
-                with open(self.__file_path, 'r') as f:
-                    jo = json.load(f)
-                for key, value in jo.items():
-                    # Recreate the instance using the class dictionary
-                    self.__objects[key] = classes[value["__class__"]](**value)
-            except Exception:
-                pass
+        
+        if not os.path.exists(FileStorage.__file_path):
+            return
+
+        try:
+            with open(FileStorage.__file_path, 'r') as f:
+                obj_dict = json.load(f)
+            for key, value in obj_dict.items():
+                cls_name = value.get("__class__")
+                if cls_name in classes:
+                    # The magic: passing the dictionary as keyword arguments
+                    self.__objects[key] = classes[cls_name](**value)
+        except (FileNotFoundError, json.JSONDecodeError):
+            pass
