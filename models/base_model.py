@@ -2,7 +2,7 @@
 """Defines the BaseModel class"""
 import uuid
 from datetime import datetime
-import models  # Import the models module, not storage directly
+import models   # Import the models module, not storage directly
 
 
 class BaseModel:
@@ -28,7 +28,7 @@ class BaseModel:
     def save(self):
         """Updates updated_at and saves to storage"""
         self.updated_at = datetime.now()
-        models.storage.save() # Use models.storage
+        models.storage.save()  # Use models.storage
 
     def to_dict(self):
         """Returns dictionary representation"""

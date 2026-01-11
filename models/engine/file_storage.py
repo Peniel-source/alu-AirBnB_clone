@@ -46,7 +46,7 @@ class FileStorage:
             "City": City, "Amenity": Amenity, "Place": Place,
             "Review": Review
         }
-        
+
         try:
             temp = {}
             if os.path.exists(FileStorage.__file_path):
@@ -57,4 +57,4 @@ class FileStorage:
                     if cls_name in classes:
                         self.all()[key] = classes[cls_name](**val)
         except Exception:
-            pass 
+            pass
