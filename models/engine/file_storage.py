@@ -47,16 +47,14 @@ class FileStorage:
             "Review": Review
         }
         
-        if not os.path.exists(FileStorage.__file_path):
-            return
-
         try:
-            with open(FileStorage.__file_path, 'r') as f:
-                obj_dict = json.load(f)
-            for key, value in obj_dict.items():
-                cls_name = value.get("__class__")
-                if cls_name in classes:
-                    # The magic: passing the dictionary as keyword arguments
-                    self.__objects[key] = classes[cls_name](**value)
-        except (FileNotFoundError, json.JSONDecodeError):
-            pass
+            temp = {}
+            if os.path.exists(FileStorage.__file_path):
+                with open(FileStorage.__file_path, 'r') as f:
+                    temp = json.load(f)
+                for key, val in temp.items():
+                    cls_name = val.get('__class__')
+                    if cls_name in classes:
+                        self.all()[key] = classes[cls_name](**val)
+        except Exception:
+            pass 
