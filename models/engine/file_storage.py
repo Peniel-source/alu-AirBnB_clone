@@ -27,7 +27,7 @@ class FileStorage:
         Returns:
             dict: Dictionary containing all stored objects
         """
-        return self.__objects
+        return FileStorage.__objects
 
     def new(self, obj):
         """
@@ -37,24 +37,23 @@ class FileStorage:
             obj: Object to be stored
         """
         key = "{}.{}".format(obj.__class__.__name__, obj.id)
-        self.__objects[key] = obj
+        FileStorage.__objects[key] = obj
 
     def save(self):
         """
         Serialize __objects to the JSON file (path: __file_path).
         """
         obj_dict = {}
-        for key, obj in self.__objects.items():
+        for key, obj in FileStorage.__objects.items():
             obj_dict[key] = obj.to_dict()
 
-        with open(self.__file_path, 'w') as file:
+        with open(FileStorage.__file_path, 'w') as file:
             json.dump(obj_dict, file)
 
     def reload(self):
         """
         Deserialize the JSON file to __objects.
         """
-        # Dictionary of classes for easy re-instantiation
         from models.base_model import BaseModel
         from models.user import User
         from models.state import State
@@ -69,13 +68,14 @@ class FileStorage:
             'Review': Review
         }
 
-        if os.path.exists(self.__file_path):
+        if os.path.exists(FileStorage.__file_path):
             try:
-                with open(self.__file_path, 'r') as file:
+                with open(FileStorage.__file_path, 'r') as file:
                     obj_dict = json.load(file)
                 for key, value in obj_dict.items():
                     class_name = value['__class__']
                     if class_name in classes:
-                        self.__objects[key] = classes[class_name](**value)
+                        cls = classes[class_name]
+                        FileStorage.__objects[key] = cls(**value)
             except Exception:
                 pass
