@@ -155,7 +155,3 @@ python3 -m unittest tests/test_models/test_base_model.py
 ├── AUTHORS            # Contributors
 └── README.md          # This file
 ```
-
-## Authors
-
-This project is part of the ALU Software Engineering program and was developed as a learning exercise in Python programming, object-oriented design, and command-line interface development.
