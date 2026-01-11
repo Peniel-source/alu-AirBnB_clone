@@ -4,7 +4,7 @@ Unit tests for City class.
 """
 import unittest
 import os
-from models.state import City
+from models.city import City
 from models.base_model import BaseModel
 
 

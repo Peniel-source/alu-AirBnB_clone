@@ -8,7 +8,7 @@ from models.base_model import BaseModel
 class Review(BaseModel):
     """
     Review class that inherits from BaseModel.
-    
+
     Attributes:
         place_id (str): Place ID (will be Place.id)
         user_id (str): User ID (will be User.id)

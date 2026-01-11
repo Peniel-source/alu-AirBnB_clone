@@ -10,8 +10,8 @@ from models import storage
 
 class BaseModel:
     """
-    BaseModel class that defines all common attributes/methods for other classes.
-    
+    BaseModel class that defines common attributes/methods for other classes.
+
     Attributes:
         id (str): Unique identifier for each instance
         created_at (datetime): Timestamp when instance is created
@@ -21,17 +21,18 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """
         Initialize a new BaseModel instance.
-        
+
         Args:
             *args: Variable length argument list (not used)
-            **kwargs: Arbitrary keyword arguments for creating instance from dict
+            **kwargs: Keyword arguments for creating instance from dict
         """
         if kwargs:
             for key, value in kwargs.items():
                 if key == '__class__':
                     continue
                 elif key == 'created_at' or key == 'updated_at':
-                    setattr(self, key, datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f'))
+                    time_fmt = '%Y-%m-%dT%H:%M:%S.%f'
+                    setattr(self, key, datetime.strptime(value, time_fmt))
                 else:
                     setattr(self, key, value)
         else:
@@ -43,7 +44,7 @@ class BaseModel:
     def __str__(self):
         """
         Return string representation of BaseModel instance.
-        
+
         Returns:
             str: String in format [<class name>] (<self.id>) <self.__dict__>
         """
@@ -53,7 +54,7 @@ class BaseModel:
 
     def save(self):
         """
-        Update the updated_at attribute with current datetime and save to storage.
+        Update updated_at attribute with current datetime and save.
         """
         self.updated_at = datetime.now()
         storage.save()
@@ -61,9 +62,9 @@ class BaseModel:
     def to_dict(self):
         """
         Return dictionary representation of BaseModel instance.
-        
+
         Returns:
-            dict: Dictionary containing all keys/values of __dict__ plus __class__
+            dict: Dictionary containing __dict__ plus __class__
         """
         obj_dict = self.__dict__.copy()
         obj_dict['__class__'] = self.__class__.__name__

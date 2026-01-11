@@ -57,16 +57,16 @@ class TestFileStorage(unittest.TestCase):
         model.name = "Test Model"
         storage.new(model)
         storage.save()
-        
+
         # Check if file was created
         self.assertTrue(os.path.exists("file.json"))
-        
+
         # Create new storage and reload
         new_storage = FileStorage()
         new_storage.reload()
         key = "BaseModel.{}".format(model.id)
         self.assertIn(key, new_storage.all())
-        
+
         # Check if attributes are preserved
         reloaded_model = new_storage.all()[key]
         self.assertEqual(reloaded_model.name, "Test Model")

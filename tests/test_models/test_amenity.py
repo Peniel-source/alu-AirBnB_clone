@@ -4,7 +4,7 @@ Unit tests for Amenity class.
 """
 import unittest
 import os
-from models.state import Amenity
+from models.amenity import Amenity
 from models.base_model import BaseModel
 
 

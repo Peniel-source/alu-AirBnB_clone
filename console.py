@@ -17,12 +17,12 @@ from models.review import Review
 class HBNBCommand(cmd.Cmd):
     """
     Command interpreter for the AirBnB clone project.
-    
+
     This class provides a command-line interface to manage AirBnB objects.
     """
 
     prompt = "(hbnb) "
-    
+
     # Dictionary of available classes
     classes = {
         'BaseModel': BaseModel,
@@ -39,6 +39,7 @@ class HBNBCommand(cmd.Cmd):
         Do nothing when empty line + ENTER is pressed.
         """
         pass
+
     def do_quit(self, arg):
         """
         Quit command to exit the program.
@@ -60,11 +61,11 @@ class HBNBCommand(cmd.Cmd):
         if not arg:
             print("** class name missing **")
             return
-        
+
         if arg not in self.classes:
             print("** class doesn't exist **")
             return
-        
+
         new_instance = self.classes[arg]()
         new_instance.save()
         print(new_instance.id)
@@ -75,26 +76,26 @@ class HBNBCommand(cmd.Cmd):
         Usage: show <class name> <id>
         """
         args = shlex.split(arg)
-        
+
         if not args:
             print("** class name missing **")
             return
-        
+
         if args[0] not in self.classes:
             print("** class doesn't exist **")
             return
-        
+
         if len(args) < 2:
             print("** instance id missing **")
             return
-        
+
         key = "{}.{}".format(args[0], args[1])
         objects = storage.all()
-        
+
         if key not in objects:
             print("** no instance found **")
             return
-        
+
         print(objects[key])
 
     def do_destroy(self, arg):
@@ -103,97 +104,88 @@ class HBNBCommand(cmd.Cmd):
         Usage: destroy <class name> <id>
         """
         args = shlex.split(arg)
-        
+
         if not args:
             print("** class name missing **")
             return
-        
+
         if args[0] not in self.classes:
             print("** class doesn't exist **")
             return
-        
+
         if len(args) < 2:
             print("** instance id missing **")
             return
-        
+
         key = "{}.{}".format(args[0], args[1])
         objects = storage.all()
-        
+
         if key not in objects:
             print("** no instance found **")
             return
-        
+
         del objects[key]
         storage.save()
 
     def do_all(self, arg):
         """
-        Print string representation of all instances or all instances of a class.
+        Print string representation of all instances or a class.
         Usage: all [class name]
         """
         objects = storage.all()
         result = []
-        
+
         if not arg:
-            # Print all instances
             for obj in objects.values():
                 result.append(str(obj))
         else:
-            # Print instances of specific class
             if arg not in self.classes:
                 print("** class doesn't exist **")
                 return
-            
+
             for key, obj in objects.items():
                 if key.startswith(arg + "."):
                     result.append(str(obj))
-        
+
         print(result)
 
     def do_update(self, arg):
         """
-        Update an instance based on class name and id by adding or updating attribute.
-        Usage: update <class name> <id> <attribute name> "<attribute value>"
+        Update an instance based on class name and id.
+        Usage: update <class name> <id> <attr name> "<attr value>"
         """
         args = shlex.split(arg)
-        
+
         if not args:
             print("** class name missing **")
             return
-        
         if args[0] not in self.classes:
             print("** class doesn't exist **")
             return
-        
         if len(args) < 2:
             print("** instance id missing **")
             return
-        
+
         key = "{}.{}".format(args[0], args[1])
         objects = storage.all()
-        
+
         if key not in objects:
             print("** no instance found **")
             return
-        
         if len(args) < 3:
             print("** attribute name missing **")
             return
-        
         if len(args) < 4:
             print("** value missing **")
             return
-        
-        # Get the object
+
         obj = objects[key]
         attr_name = args[2]
         attr_value = args[3]
-        
-        # Don't update id, created_at, updated_at
+
         if attr_name in ['id', 'created_at', 'updated_at']:
             return
-        
-        # Cast the attribute value to the appropriate type
+
         if hasattr(obj, attr_name):
             attr_type = type(getattr(obj, attr_name))
             try:
@@ -201,10 +193,9 @@ class HBNBCommand(cmd.Cmd):
                     attr_value = int(attr_value)
                 elif attr_type == float:
                     attr_value = float(attr_value)
-                # String remains as string
             except ValueError:
                 pass
-        
+
         setattr(obj, attr_name, attr_value)
         obj.save()
 

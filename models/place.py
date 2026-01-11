@@ -8,7 +8,7 @@ from models.base_model import BaseModel
 class Place(BaseModel):
     """
     Place class that inherits from BaseModel.
-    
+
     Attributes:
         city_id (str): City ID (will be City.id)
         user_id (str): User ID (will be User.id)

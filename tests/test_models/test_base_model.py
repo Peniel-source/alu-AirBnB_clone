@@ -76,7 +76,7 @@ class TestBaseModel(unittest.TestCase):
         model.name = "Test Model"
         model.number = 42
         model_dict = model.to_dict()
-        
+
         new_model = BaseModel(**model_dict)
         self.assertEqual(model.id, new_model.id)
         self.assertEqual(model.created_at, new_model.created_at)

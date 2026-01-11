@@ -4,7 +4,7 @@ Unit tests for Place class.
 """
 import unittest
 import os
-from models.state import Place
+from models.place import Place
 from models.base_model import BaseModel
 
 
@@ -40,7 +40,7 @@ class TestPlace(unittest.TestCase):
         """
         Test Place class attributes.
         """
-        Place = Place()
+        place = Place()
         self.assertEqual(place.name, "")
 
     def test_str(self):

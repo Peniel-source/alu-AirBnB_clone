@@ -4,7 +4,7 @@ Unit tests for Review class.
 """
 import unittest
 import os
-from models.state import Review
+from models.review import Review
 from models.base_model import BaseModel
 
 
@@ -41,7 +41,13 @@ class TestReview(unittest.TestCase):
         Test Review class attributes.
         """
         review = Review()
-        self.assertEqual(review.name, "")
+        # Check for the correct attributes defined in models/review.py
+        self.assertTrue(hasattr(review, "place_id"))
+        self.assertTrue(hasattr(review, "user_id"))
+        self.assertTrue(hasattr(review, "text"))
+        self.assertEqual(review.place_id, "")
+        self.assertEqual(review.user_id, "")
+        self.assertEqual(review.text, "")
 
     def test_str(self):
         """
