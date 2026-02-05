@@ -152,6 +152,21 @@ python3 -m unittest tests/test_models/test_base_model.py
 │       └── test_engine/
 │           ├── __init__.py
 │           └── test_file_storage.py
+├── web_static/        # Front-end HTML/CSS (static pages)
+│   ├── 0-index.html through 8-index.html
+│   ├── styles/        # CSS files
+│   └── images/        # Image assets
 ├── AUTHORS            # Contributors
 └── README.md          # This file
 ```
+
+## Web Static
+
+The `web_static` directory contains the front-end implementation of the AirBnB clone using HTML and CSS. This is a static website with no JavaScript or backend integration.
+
+To view the web pages, open any HTML file in a web browser:
+```bash
+firefox web_static/8-index.html
+```
+
+See [web_static/README.md](web_static/README.md) for detailed information about the front-end implementation.
